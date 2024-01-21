@@ -1,58 +1,51 @@
 <?php
 
-class Company {
-    public $name;
-    public $location;
-    public $totEmployees = 0;
-    public static $totalAvgAnnualWage = 0;
-    public static $avgWage = 1500;
+class Company{
+    public $Name;
+    public $Location;
+    public $TotEmployess;
+    static public $AvgWage=1500;
+    static public $tot;
 
-    public function __construct($_name, $_location, $_tot_employees)
+    public function __construct($NamE, $LocatioN, $TotEmployesS=0)
     {
-        $this->name = $_name;
-        $this->location = $_location;
-        $this->totEmployees = $_tot_employees;
+        $this->Name = $NamE;
+        $this->Location = $LocatioN;
+        $this->TotEmployess = $TotEmployesS;
     }
-    
-    public function PrintDescription() {
-        if ($this->totEmployees > 1) {
-            echo "The company $this->name is located in $this->location and has $this->totEmployees employees.\n";
-        } else {
-            echo "The company $this->name is located in $this->location and does not have employees.\n";
+    public function Report(){
+        if($this->TotEmployess<=0){
+            echo "L'azienda $this->Name con sede in $this->Location non ha dipendenti.\n";
+        } else{
+            echo "L'azienda $this->Name con sede in $this->Location ha ben $this->TotEmployess dipendenti.\n";
         }
     }
-
-    public function AvgAnnualWage(){
-        $avg_annual_wage = self::$avgWage * $this->totEmployees * 12 ;
-        echo "$this->name's average annual spend is $avg_annual_wage\n";
-
-        self::$totalAvgAnnualWage += $avg_annual_wage;
-        
+    public function StipendiAziende(){
+       return $this->TotEmployess*self::$AvgWage*12;
     }
 
-    public function avgMonth($month){
-        return self::$avgWage * $this->totEmployees * $month;
+    public function StipendiAziendeMensili($mese){
+        return $this->TotEmployess*self::$AvgWage*$mese;
     }
 
-    public static function PrintTotal () {
-        echo "The total of all Avg Annual Wage is " .  self::$totalAvgAnnualWage . "\n";
+    public function TotaleAziende(){
+        self::$tot+=$this->StipendiAziende();
     }
 }
 
-$companies = [
-	new Company('Apple', 'Cupertino', 200),
-new Company('Google', 'California', 100), 
-	new Company('Tesla', 'USA', 150), 
-	new Company('Amazon', 'Seattle', 400), 
-	new Company('Microsoft', 'Redmond', 500)
-	];
-	
-foreach ($companies as $company) {
-    $company->PrintDescription();
-    $company->AvgAnnualWage();
-}
-
-echo $companies[1] -> avgMonth(readline ("Su quanti mesi vuoi calcolare le spese? : ")) . "\n";
+$Company1= new Company("Apple", " Cupertino",137000);
+$Company2= new Company("Google", "California",180000);
+$Company3= new Company("Xbox", "Seattle",5000);
+$Company4= new Company("PlayStation", "London",6800);
+$Company5= new Company("Nintendo", "Kyoto");
 
 
-Company::PrintTotal();
+/*  echo $Company1->StipendiAziendeMensili((int)readline('Inserire il numero di mesi per vedere la spesa: ') ) . "\n";
+ */
+
+ $Company1->TotaleAziende();
+ $Company2->TotaleAziende();
+ $Company3->TotaleAziende();
+ $Company4->TotaleAziende();
+ $Company5->TotaleAziende();
+ echo "Il totale delle spese di tutte le azziende e di ". Company   ::$tot ."$" ;
